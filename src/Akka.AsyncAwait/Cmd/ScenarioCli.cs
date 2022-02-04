@@ -11,14 +11,14 @@ public static class ScenarioCli
         .WithName("await")
         .WithDescription("Run an operation with an actor that uses await.")
         .WithArgument(b => b.WithName("batchsize").WithDescription("The number of messages to process")
-            .WithSwitch("-b").WithSwitch("-B").WithDefaultValues("5", "10", "25", "50").WithDefaultValue("25"))
+            .WithSwitch("-b").WithSwitch("-B").WithDefaultValues("5", "10", "25", "50").IsMandatory(true))
         .Build();
     
     public static readonly CommandDefinition PipeTo = new CommandDefinitionBuilder()
         .WithName("pipeto")
         .WithDescription("Run an operation with an actor that uses pipto.")
         .WithArgument(b => b.WithName("batchsize").WithDescription("The number of messages to process")
-            .WithSwitch("-b").WithSwitch("-B").WithDefaultValues("5", "10", "25", "50").WithDefaultValue("25"))
+            .WithSwitch("-b").WithSwitch("-B").WithDefaultValues("5", "10", "25", "50").IsMandatory(true))
         .Build();
 
     public static readonly CommandPalette ScenarioCommandPalette =
