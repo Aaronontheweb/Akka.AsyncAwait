@@ -11,7 +11,7 @@ namespace Akka.AsyncAwait;
 public class AkkaService : IHostedService
 {
     private readonly IServiceProvider _provider;
-    private ActorSystem _actorSystem;
+    private ActorSystem? _actorSystem;
 
     public AkkaService(IServiceProvider provider)
     {
@@ -42,6 +42,6 @@ public class AkkaService : IHostedService
 
     public async Task StopAsync(CancellationToken cancellationToken)
     {
-        await _actorSystem.Terminate().ConfigureAwait(false);
+        await _actorSystem!.Terminate().ConfigureAwait(false);
     }
 }

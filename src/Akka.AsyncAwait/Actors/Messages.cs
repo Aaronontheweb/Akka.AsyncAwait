@@ -10,6 +10,11 @@ public static class Messages
         }
 
         public int SeqNo { get; }
+
+        public override string ToString()
+        {
+            return $"Ack(SeqNo={SeqNo})";
+        }
     }
     
     public record Req(int SeqNo)
@@ -22,8 +27,11 @@ public static class Messages
         public Ack Ack => new Ack(SeqNo);
     }
 
-    public record Batch
+    public record Batch(int Size)
     {
-        public int Size { get; init; }
+        public override string ToString()
+        {
+            return $"Batch(Size={Size})";
+        }
     }
 }

@@ -18,10 +18,10 @@ public sealed class ScenarioCliRouter : CommandHandlerActor
             var batchingActorProps = BatchingActor.Props(batchSize, awaitActor, Sender);
             var batchActor = Context.ActorOf(batchingActorProps);
             Sender.Tell(new CommandResponse($"Starting async / await batch of [{batchSize}]", false));
-            foreach (var a in Enumerable.Range(0, batchSize))
-            {
-                awaitActor.Tell(new Messages.Req(a), batchActor);
-            }
+            
+            // the batchActor is set as the sender, so it can aggregate the responses and
+            // stream them to the `pbm` client
+            awaitActor.Tell(new Messages.Batch(batchSize), batchActor);
         });
         
         Process(ScenarioCli.PipeTo.Name, (command, arguments) =>
@@ -32,10 +32,10 @@ public sealed class ScenarioCliRouter : CommandHandlerActor
             var batchingActorProps = BatchingActor.Props(batchSize, pipeToActor, Sender);
             var batchActor = Context.ActorOf(batchingActorProps);
             Sender.Tell(new CommandResponse($"Starting PipeTo batch of [{batchSize}]", false));
-            foreach (var a in Enumerable.Range(0, batchSize))
-            {
-                pipeToActor.Tell(new Messages.Req(a), batchActor);
-            }
+            
+            // the batchActor is set as the sender, so it can aggregate the responses and
+            // stream them to the `pbm` client
+            pipeToActor.Tell(new Messages.Batch(batchSize), batchActor);
         });
     }
 }
